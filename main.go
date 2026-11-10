@@ -10,9 +10,9 @@ import (
 )
 
 type command struct {
-	name    string
+	name    string // "init" ,"commit" etc
 	summary string
-	run     func(args []string) error
+	run     func(args []string) error // recebe os argumentos que vieram depois do nome do comando
 }
 
 var commands []command
@@ -29,7 +29,7 @@ func main() {
 	name := os.Args[1]
 	i := slices.IndexFunc(commands, func(c command) bool { return c.name == name })
 	if i < 0 {
-		fmt.Fprintf(os.Stderr, "tov: '%s' não é um comando. Veja 'kit help'. \n", name)
+		fmt.Fprintf(os.Stderr, "tov: '%s' não é um comando. Veja 'tov help'. \n", name)
 		os.Exit(1)
 	}
 	if err := commands[i].run(os.Args[2:]); err != nil {
