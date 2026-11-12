@@ -115,7 +115,7 @@ func (c *Config) Set(name, sub, key, value string) {
 		s = &section{name: name, sub: sub}
 		c.sections = append(c.sections, s)
 	}
-	// Percorrer apartir do ultimo e nao do primeiro, pois quero que faça sentido com o metodo Get, afinal o Get atualiza o ultimo tbm
+	// Percorrer a partir do ultimo e nao do primeiro, pois quero que faça sentido com o metodo Get, afinal o Get atualiza o ultimo tbm
 	for i, e := range slices.Backward(s.entries) {
 		if e.key == key {
 			s.entries[i].value = value

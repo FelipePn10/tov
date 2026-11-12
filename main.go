@@ -7,6 +7,8 @@ import (
 	"os"
 	"slices"
 	"strings"
+
+	"github.com/FelipePn10/tov/internal/repo"
 )
 
 type command struct {
@@ -43,6 +45,24 @@ func main() {
 		fmt.Fprintf(os.Stderr, "kit %s: %v\n", name, err)
 		os.Exit(1)
 	}
+}
+
+func cmdInit(args []string) error {
+	fs := newFlags("init", "[--bare] [diretório]")
+	bare := fs.Bool("bare", false, "cria um repositório sem árvore de trabalho")
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	dir := "."
+	if fs.NArg() > 0 {
+		dir = fs.Arg(0)
+	}
+	r, err := repo.Init(dir, *bare)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("Repositório vazio criado em %s\n", r.GitDir)
+	return nil
 }
 
 type exitError int
